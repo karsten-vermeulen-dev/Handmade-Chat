@@ -1,5 +1,4 @@
-#ifndef CHAT_SERVER_H
-#define CHAT_SERVER_H
+#pragma once
 
 #include <Windows.h>
 #include "TCPServer.h"
@@ -9,13 +8,14 @@ class ChatServer
 
 public:
 
-	enum class Color{ DEFAULT = 7, BLUE = 9, GREEN = 10};
-
-public:
+	enum class Color
+	{
+		Default = 7,
+		Blue = 9,
+		Green = 10
+	};
 
 	ChatServer();
-
-public:
 
 	bool Start();
 	void Listen();
@@ -25,10 +25,8 @@ public:
 
 private:
 
-	bool m_isChatRunning;
-	HANDLE m_consoleHandle;
-	TCPServer m_server;
+	bool isChatRunning;
+	HANDLE consoleHandle;
+	TCPServer server;
 
 };
-
-#endif

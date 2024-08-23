@@ -1,44 +1,37 @@
 #include <iostream>
 #include "ChatClient.h"
 
-//------------------------------------------------------------------------------------------------------
-//constructor that initializes all default values
-//------------------------------------------------------------------------------------------------------
+//======================================================================================================
 ChatClient::ChatClient()
 {
-
-	m_isChatRunning = false;
-	m_consoleHandle = nullptr;
-
+	isChatRunning = false;
+	consoleHandle = nullptr;
 }
-//------------------------------------------------------------------------------------------------------
-//function that sets up console pointer and initializes client
-//------------------------------------------------------------------------------------------------------
+//======================================================================================================
 bool ChatClient::Start()
 {
-	
-	//first get a handle on the console window so that 
+	//First get a handle on the console window so that 
 	//we can manipulate the text colors individually
-	m_consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+	consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
 
-	//display configuration screen 
+	//Display configuration screen 
 	std::cout << "#==============================#" << std::endl;
 	std::cout << "|   CHAT 2000 Setup (Client)   |" << std::endl;
 	std::cout << "#==============================#" << std::endl << std::endl;
 
-	//prompt user to enter an IP address to connect to
+	//Prompt user to enter an IP address to connect to
 	std::cout << ">Please enter an IP address to connect to: ";
-	std::getline(std::cin, m_IPString);
+	std::getline(std::cin, IPString);
 
-	//setup all SDL systems and initialize the client 
-	if (!m_client.Initialize(1234, m_IPString.c_str()))
+	//Setup all SDL systems and initialize the client 
+	if (!client.Initialize(1234, IPString.c_str()))
 	{
 		system("pause");
 		return false;
 	}
 
-	//open up a client socket for server connections
-	if (!m_client.Open())
+	//Open up a client socket for server connections
+	if (!client.Open())
 	{
 		system("pause");
 		return false;
@@ -50,105 +43,82 @@ bool ChatClient::Start()
 	std::cout << "|     Welcome to CHAT 2000     |" << std::endl;
 	std::cout << "#==============================#" << std::endl;
 
-	m_isChatRunning = true;
-
+	isChatRunning = true;
 	return true;
-
 }
-//------------------------------------------------------------------------------------------------------
-//function that manages the sending of messages to the server
-//------------------------------------------------------------------------------------------------------
+//======================================================================================================
 void ChatClient::Send()
 {
-
 	std::string message;
 
-	//as long as the chat is still running wait for user to enter a message
-	//chat ends if the message is "end" otherwise the entered message is sent
-	while (m_isChatRunning)
+	//As long as the chat is still running wait for user to enter a message
+	//Chat ends if the message is "end" otherwise the entered message is sent
+	while (isChatRunning)
 	{
-
-		//set text color back to DEFAULT
-		SetConsoleTextAttribute(m_consoleHandle, static_cast<WORD>(Color::DEFAULT));
-
+		SetConsoleTextAttribute(consoleHandle, static_cast<WORD>(Color::Default));
 		std::cout << ">";
 
-		//set text color to BLUE for our messages 
-		SetConsoleTextAttribute(m_consoleHandle, static_cast<WORD>(Color::BLUE));
+		SetConsoleTextAttribute(consoleHandle, static_cast<WORD>(Color::Blue));
 		std::getline(std::cin, message, '\n');
 
-		//because getline() above creates a block call the chat may have 
+		//Because getline() above creates a block call the chat may have 
 		//ended on the other thread so we need to check the status of the chat
-		if (!m_isChatRunning)
+		if (!isChatRunning)
 		{
 			break;
 		}
 
 		else if (message == "end")
 		{
-			m_isChatRunning = false;
+			isChatRunning = false;
 		}
 
 		else
 		{
-			m_client.Send(message);
+			client.Send(message);
 		}
-
 	}
-
 }
-//------------------------------------------------------------------------------------------------------
-//function that manages the received messages from the server
-//------------------------------------------------------------------------------------------------------
+//======================================================================================================
 void ChatClient::Receive()
 {
-
 	std::string message;
 
-	//as long as the chat is still running wait for messages to come through
-	//chat ends if the message is "end" otherwise the received message is shown
-	while (m_isChatRunning)
+	//As long as the chat is still running wait for messages to come through
+	//Chat ends if the message is "end" otherwise the received message is shown
+	while (isChatRunning)
 	{
-
-		//if something goes wrong with receiving messages it is likely the 
+		//If something goes wrong with receiving messages it is likely the 
 		//client or server socket has closed therefore the chat will end
-		if (!m_client.Receive(message))
+		if (!client.Receive(message))
 		{
-			m_isChatRunning = false;
+			isChatRunning = false;
 
-			//set text color back to DEFAULT
-			SetConsoleTextAttribute(m_consoleHandle, static_cast<WORD>(Color::DEFAULT));
+			SetConsoleTextAttribute(consoleHandle, static_cast<WORD>(Color::Default));
 
 			std::cout << "#==============================#" << std::endl;
 			std::cout << "|         Chat ended.          |" << std::endl;
 			std::cout << "#==============================#" << std::endl << std::endl;
-
 		}
 
 		else
 		{
-			//set text color to GREEN for server messages and then  
-			//make it DEFAULT to display the '>' before reverting it 
-			//straight back to BLUE so we don't type in the wrong color 
-			SetConsoleTextAttribute(m_consoleHandle, static_cast<WORD>(Color::GREEN));
+			//Set text color to green for server messages and then  
+			//make it default to display the '>' before reverting it 
+			//straight back to blue so we don't type in the wrong color 
+			SetConsoleTextAttribute(consoleHandle, static_cast<WORD>(Color::Green));
 			std::cout << message << std::endl;
-			SetConsoleTextAttribute(m_consoleHandle, static_cast<WORD>(Color::DEFAULT));
+			SetConsoleTextAttribute(consoleHandle, static_cast<WORD>(Color::Default));
 			std::cout << ">";
-			SetConsoleTextAttribute(m_consoleHandle, static_cast<WORD>(Color::BLUE));
+			SetConsoleTextAttribute(consoleHandle, static_cast<WORD>(Color::Blue));
 
-			m_isChatRunning = message != "end";
+			isChatRunning = message != "end";
 		}
-
 	}
-
 }
-//------------------------------------------------------------------------------------------------------
-//function that closes the client socket and all SDL systems
-//------------------------------------------------------------------------------------------------------
+//======================================================================================================
 void ChatClient::Stop()
 {
-
-	m_client.Close();
-	m_client.ShutDown();
-
+	client.Close();
+	client.ShutDown();
 }

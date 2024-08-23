@@ -1,5 +1,4 @@
-#ifndef TCP_CLIENT_H
-#define TCP_CLIENT_H
+#pragma once
 
 #include <string>
 #include "TCPSocket.h"
@@ -13,5 +12,3 @@ public:
 	bool Receive(std::string& message);
 	
 };
-
-#endif

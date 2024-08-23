@@ -1,5 +1,4 @@
-#ifndef CHAT_CLIENT_H
-#define CHAT_CLIENT_H
+#pragma once
 
 #include <string>
 #include <Windows.h>
@@ -10,13 +9,14 @@ class ChatClient
 
 public:
 
-	enum class Color{ DEFAULT = 7, BLUE = 9, GREEN = 10};
-
-public:
+	enum class Color
+	{ 
+		Default = 7, 
+		Blue = 9, 
+		Green = 10
+	};
 
 	ChatClient();
-
-public:
 
 	bool Start();
 	void Send();
@@ -25,11 +25,9 @@ public:
 
 private:
 
-	bool m_isChatRunning;
-	std::string m_IPString;
-	HANDLE m_consoleHandle;
-	TCPClient m_client;
+	bool isChatRunning;
+	std::string IPString;
+	HANDLE consoleHandle;
+	TCPClient client;
 
 };
-
-#endif

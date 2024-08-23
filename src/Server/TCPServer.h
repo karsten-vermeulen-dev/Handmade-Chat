@@ -1,5 +1,4 @@
-#ifndef TCP_SERVER_H
-#define TCP_SERVER_H
+#pragma once
 
 #include <map>
 #include <string>
@@ -13,8 +12,6 @@ public:
 
 	TCPServer();
 
-public:
-
 	bool Listen();
 	bool Send(const std::string& message);
 	bool Receive(std::string& message);
@@ -22,8 +19,6 @@ public:
 
 private:
 
-	TCPsocket m_clientSocket;
+	TCPsocket clientSocket;
 
 };
-
-#endif
