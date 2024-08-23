@@ -1,1 +1,3 @@
-# Handmade-Chat
+# Handmade _Chat_
+
+More info soon...
