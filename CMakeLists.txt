@@ -39,6 +39,11 @@ ${CMAKE_SOURCE_DIR}/lib/SDL2.lib
 ${CMAKE_SOURCE_DIR}/lib/SDL2main.lib 
 ${CMAKE_SOURCE_DIR}/lib/SDL2_net.lib)
 
+add_custom_command(TARGET Handmade_Server POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
+${CMAKE_SOURCE_DIR}/bin 
+$<TARGET_FILE_DIR:Handmade_Server>)
 
-
+add_custom_command(TARGET Handmade_Client POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
+${CMAKE_SOURCE_DIR}/bin 
+$<TARGET_FILE_DIR:Handmade_Client>)
 
