@@ -1,5 +1,4 @@
-#ifndef TCP_SOCKET_H
-#define TCP_SOCKET_H
+#pragma once
 
 #include <string>
 #include <SDL.h>
@@ -12,8 +11,6 @@ public:
 
 	TCPSocket();
 
-public:
-
 	bool Initialize(Uint16 port, const char* ipAddress = nullptr);
 	bool Open();
 	void Close();
@@ -21,9 +18,7 @@ public:
 
 protected:
 
-	IPaddress m_IP;
-	TCPsocket m_socket;
+	IPaddress IP;
+	TCPsocket socket;
 
 };
-
-#endif 
