@@ -14,14 +14,14 @@ ${CMAKE_SOURCE_DIR}/src/Server/Main.cpp
 ${CMAKE_SOURCE_DIR}/src/Server/TCPServer.cpp
 ${CMAKE_SOURCE_DIR}/src/Server/TCPSocket.cpp)
 
-set(INCLUDE_FILES_CLIENT ${CMAKE_SOURCE_DIR}/src/Server/ChatClient.h 
-${CMAKE_SOURCE_DIR}/src/Server/TCPClient.h
-${CMAKE_SOURCE_DIR}/src/Server/TCPSocket.h)
+set(INCLUDE_FILES_CLIENT ${CMAKE_SOURCE_DIR}/src/Client/ChatClient.h 
+${CMAKE_SOURCE_DIR}/src/Client/TCPClient.h
+${CMAKE_SOURCE_DIR}/src/Client/TCPSocket.h)
 
-set(SOURCE_FILES_CLIENT ${CMAKE_SOURCE_DIR}/src/Server/ChatClient.cpp 
-${CMAKE_SOURCE_DIR}/src/Server/Main.cpp
-${CMAKE_SOURCE_DIR}/src/Server/TCPClient.cpp
-${CMAKE_SOURCE_DIR}/src/Server/TCPSocket.cpp)
+set(SOURCE_FILES_CLIENT ${CMAKE_SOURCE_DIR}/src/Client/ChatClient.cpp 
+${CMAKE_SOURCE_DIR}/src/Client/Main.cpp
+${CMAKE_SOURCE_DIR}/src/Client/TCPClient.cpp
+${CMAKE_SOURCE_DIR}/src/Client/TCPSocket.cpp)
 
 add_executable(Handmade_Server ${SOURCE_FILES_SERVER} ${INCLUDE_FILES_SERVER})
 add_executable(Handmade_Client ${SOURCE_FILES_CLIENT} ${INCLUDE_FILES_CLIENT})
